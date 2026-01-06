@@ -1,0 +1,89 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  ADMIN
+  DOCTOR
+  PATIENT
+}
+
+enum AppointmentStatus {
+  PENDING
+  SCHEDULED
+  COMPLETED
+  CANCELLED
+}
+
+model User {
+  id            String    @id @default(cuid())
+  clerkId       String    @unique
+  email         String    @unique
+  name          String?
+  role          UserRole  @default(PATIENT)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  patientProfile Patient?
+  doctorProfile  Doctor?
+}
+
+model Patient {
+  id              String    @id @default(cuid())
+  userId          String    @unique
+  user            User      @relation(fields: [userId], references: [id])
+  dateOfBirth     DateTime?
+  gender          String?
+  address         String?
+  phoneNumber     String?
+  emergencyContact String?
+  bloodGroup      String?
+  
+  appointments    Appointment[]
+  medicalRecords  MedicalRecord[]
+}
+
+model Doctor {
+  id              String    @id @default(cuid())
+  userId          String    @unique
+  user            User      @relation(fields: [userId], references: [id])
+  specialization  String
+  licenseNumber   String    @unique
+  bio             String?   @db.Text
+  availability    Json?     // Stores weekly schedule
+  
+  appointments    Appointment[]
+}
+
+model Appointment {
+  id              String            @id @default(cuid())
+  patientId       String
+  patient         Patient           @relation(fields: [patientId], references: [id])
+  doctorId        String
+  doctor          Doctor            @relation(fields: [doctorId], references: [id])
+  dateTime        DateTime
+  status          AppointmentStatus @default(PENDING)
+  reason          String?
+  notes           String?           @db.Text
+  
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+}
+
+model MedicalRecord {
+  id              String    @id @default(cuid())
+  patientId       String
+  patient         Patient   @relation(fields: [patientId], references: [id])
+  diagnosis       String
+  treatment       String?   @db.Text
+  prescription    String?   @db.Text
+  date            DateTime  @default(now())
+  
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
