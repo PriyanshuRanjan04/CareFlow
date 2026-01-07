@@ -18,9 +18,12 @@ import { AddDoctorModal } from "@/components/dashboard/AddDoctorModal";
 export default async function DashboardPage() {
     const user = await currentUser();
 
-    const [patientCount, appointmentCount, recentAppointments, patients, doctors] = await Promise.all([
+    const [patientCount, appointmentCount, pendingCount, recentAppointments, patients, doctors] = await Promise.all([
         prisma.patient.count(),
         prisma.appointment.count(),
+        prisma.appointment.count({
+            where: { status: 'PENDING' }
+        }),
         prisma.appointment.findMany({
             take: 3,
             orderBy: {
@@ -47,7 +50,7 @@ export default async function DashboardPage() {
     const stats = [
         { name: "Total Patients", value: patientCount.toString(), icon: Users, color: "text-blue-600", bg: "bg-blue-50" },
         { name: "Total Appointments", value: appointmentCount.toString(), icon: Calendar, color: "text-indigo-600", bg: "bg-indigo-50" },
-        { name: "Pending Approval", value: "0", icon: Clock, color: "text-amber-600", bg: "bg-amber-50" }, // TODO: Implement pending logic
+        { name: "Pending Approval", value: pendingCount.toString(), icon: Clock, color: "text-amber-600", bg: "bg-amber-50" },
         { name: "Recovery Rate", value: "94.2%", icon: TrendingUp, color: "text-emerald-600", bg: "bg-emerald-50" },
     ];
 
