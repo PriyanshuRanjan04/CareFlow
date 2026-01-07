@@ -6,21 +6,46 @@ import {
     Activity
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { currentUser } from "@clerk/nextjs/server";
+import prisma from "@/lib/prisma";
+import { format } from "date-fns";
 
-const stats = [
-    { name: "Total Patients", value: "1,284", icon: Users, color: "text-blue-600", bg: "bg-blue-50" },
-    { name: "Appointments", value: "42", icon: Calendar, color: "text-indigo-600", bg: "bg-indigo-50" },
-    { name: "Pending Approval", value: "12", icon: Clock, color: "text-amber-600", bg: "bg-amber-50" },
-    { name: "Recovery Rate", value: "94.2%", icon: TrendingUp, color: "text-emerald-600", bg: "bg-emerald-50" },
-];
+export default async function DashboardPage() {
+    const user = await currentUser();
 
-export default function DashboardPage() {
+    const [patientCount, appointmentCount, recentAppointments] = await Promise.all([
+        prisma.patient.count(),
+        prisma.appointment.count(),
+        prisma.appointment.findMany({
+            take: 3,
+            orderBy: {
+                dateTime: 'desc'
+            },
+            include: {
+                patient: {
+                    include: {
+                        user: true
+                    }
+                }
+            }
+        })
+    ]);
+
+    const stats = [
+        { name: "Total Patients", value: patientCount.toString(), icon: Users, color: "text-blue-600", bg: "bg-blue-50" },
+        { name: "Total Appointments", value: appointmentCount.toString(), icon: Calendar, color: "text-indigo-600", bg: "bg-indigo-50" },
+        { name: "Pending Approval", value: "0", icon: Clock, color: "text-amber-600", bg: "bg-amber-50" }, // TODO: Implement pending logic
+        { name: "Recovery Rate", value: "94.2%", icon: TrendingUp, color: "text-emerald-600", bg: "bg-emerald-50" },
+    ];
+
     return (
         <div className="space-y-8">
             {/* Welcome Section */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h2 className="text-2xl font-bold font-tight text-slate-900">Welcome back, Dr. Smith</h2>
+                    <h2 className="text-2xl font-bold font-tight text-slate-900">
+                        Welcome back, {user?.firstName || "Doctor"}
+                    </h2>
                     <p className="text-slate-500">Here's what's happening at your clinic today.</p>
                 </div>
                 <div className="flex items-center gap-3">
@@ -55,22 +80,28 @@ export default function DashboardPage() {
                         <Button variant="ghost" size="sm" className="text-primary hover:text-primary hover:bg-blue-50">View all</Button>
                     </div>
                     <div className="space-y-4">
-                        {[1, 2, 3].map((i) => (
-                            <div key={i} className="flex items-center justify-between p-4 rounded-lg border border-slate-50 bg-slate-50/30">
-                                <div className="flex items-center gap-4">
-                                    <div className="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center font-bold text-slate-600">
-                                        {i === 1 ? "JS" : i === 2 ? "MK" : "LW"}
+                        {recentAppointments.length === 0 ? (
+                            <p className="text-slate-500 text-center py-4">No recent appointments found.</p>
+                        ) : (
+                            recentAppointments.map((appointment) => (
+                                <div key={appointment.id} className="flex items-center justify-between p-4 rounded-lg border border-slate-50 bg-slate-50/30">
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center font-bold text-slate-600">
+                                            {appointment.patient.user.name?.substring(0, 2).toUpperCase() || "PT"}
+                                        </div>
+                                        <div>
+                                            <p className="text-sm font-bold text-slate-900">
+                                                {appointment.patient.user.name || "Unknown Patient"}
+                                            </p>
+                                            <p className="text-xs text-slate-500">
+                                                {format(new Date(appointment.dateTime), "MMM d, h:mm a")}
+                                            </p>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <p className="text-sm font-bold text-slate-900">
-                                            {i === 1 ? "John Smith" : i === 2 ? "Maria Koric" : "Linda White"}
-                                        </p>
-                                        <p className="text-xs text-slate-500">General Checkup • 10:30 AM</p>
-                                    </div>
+                                    <Button variant="ghost" size="sm">Details</Button>
                                 </div>
-                                <Button variant="ghost" size="sm">Details</Button>
-                            </div>
-                        ))}
+                            ))
+                        )}
                     </div>
                 </div>
 

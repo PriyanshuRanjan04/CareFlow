@@ -34,7 +34,7 @@ export default function DashboardLayout({
                 <div className="h-16 flex items-center px-6 border-b border-slate-100">
                     <Link href="/dashboard" className="flex items-center gap-2">
                         <Activity className="h-6 w-6 text-primary" />
-                        <span className="font-bold text-lg tracking-tight">MediCare HMS</span>
+                        <span className="font-bold text-lg tracking-tight">CareFlow</span>
                     </Link>
                 </div>
 
