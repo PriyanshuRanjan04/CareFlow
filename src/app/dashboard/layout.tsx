@@ -51,12 +51,7 @@ export default function DashboardLayout({
                     ))}
                 </nav>
 
-                <div className="p-4 border-t border-slate-100">
-                    <Button variant="outline" className="w-full justify-start gap-2" size="sm">
-                        <PlusCircle className="h-4 w-4" />
-                        Quick Appointment
-                    </Button>
-                </div>
+
             </aside>
 
             {/* Main Content */}
