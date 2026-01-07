@@ -11,6 +11,8 @@ import {
 } from "@/components/ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
+import { PatientActions } from "@/components/dashboard/PatientActions";
+
 export default async function PatientsPage() {
     const patients = await prisma.patient.findMany({
         include: {
@@ -61,11 +63,11 @@ export default async function PatientsPage() {
                                     <TableRow key={patient.id}>
                                         <TableCell className="font-medium">{patient.user.name}</TableCell>
                                         <TableCell>{patient.user.email}</TableCell>
-                                        <TableCell>{patient.phoneNumber}</TableCell>
-                                        <TableCell>{patient.gender}</TableCell>
+                                        <TableCell>{patient.phoneNumber || "N/A"}</TableCell>
+                                        <TableCell>{patient.gender || "N/A"}</TableCell>
                                         <TableCell>{patient.dateOfBirth ? format(new Date(patient.dateOfBirth), "PP") : "N/A"}</TableCell>
                                         <TableCell>
-                                            <span className="text-muted-foreground text-sm italic">View Details</span>
+                                            <PatientActions patient={patient} />
                                         </TableCell>
                                     </TableRow>
                                 ))

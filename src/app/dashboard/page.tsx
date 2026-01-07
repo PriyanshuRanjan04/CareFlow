@@ -11,11 +11,12 @@ import prisma from "@/lib/prisma";
 import { format } from "date-fns";
 import { AddPatientModal } from "@/components/dashboard/AddPatientModal";
 import { DownloadReportButton } from "@/components/dashboard/DownloadReportButton";
+import { QuickAppointmentModal } from "@/components/dashboard/QuickAppointmentModal";
 
 export default async function DashboardPage() {
     const user = await currentUser();
 
-    const [patientCount, appointmentCount, recentAppointments] = await Promise.all([
+    const [patientCount, appointmentCount, recentAppointments, patients, doctors] = await Promise.all([
         prisma.patient.count(),
         prisma.appointment.count(),
         prisma.appointment.findMany({
@@ -30,6 +31,14 @@ export default async function DashboardPage() {
                     }
                 }
             }
+        }),
+        prisma.patient.findMany({
+            include: { user: true },
+            take: 50,
+        }),
+        prisma.doctor.findMany({
+            include: { user: true },
+            take: 10,
         })
     ]);
 
@@ -39,6 +48,10 @@ export default async function DashboardPage() {
         { name: "Pending Approval", value: "0", icon: Clock, color: "text-amber-600", bg: "bg-amber-50" }, // TODO: Implement pending logic
         { name: "Recovery Rate", value: "94.2%", icon: TrendingUp, color: "text-emerald-600", bg: "bg-emerald-50" },
     ];
+
+    // Format data for modal
+    const patientsList = patients.map(p => ({ id: p.id, name: p.user.name || "Unknown Patient" }));
+    const doctorsList = doctors.map(d => ({ id: d.id, name: d.user.name || "Dr. Unknown" }));
 
     return (
         <div className="space-y-8">
@@ -53,6 +66,7 @@ export default async function DashboardPage() {
 
                 <div className="flex items-center gap-3">
                     <DownloadReportButton />
+                    <QuickAppointmentModal patients={patientsList} doctors={doctorsList} />
                     <AddPatientModal />
                 </div>
             </div>
