@@ -22,13 +22,13 @@ const sidebarLinks = [
     { name: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
 
-export function DashboardSidebar() {
+export function SidebarContent({ className, onItemClick }: { className?: string, onItemClick?: () => void }) {
     const pathname = usePathname();
 
     return (
-        <aside className="hidden md:flex w-64 flex-col bg-white/70 dark:bg-slate-950/70 backdrop-blur-md border-r border-slate-200 dark:border-slate-800 transition-colors duration-300">
-            <div className="h-16 flex items-center px-6 border-b border-slate-100 dark:border-slate-900">
-                <Link href="/dashboard" className="flex items-center gap-2">
+        <div className={cn("flex flex-col h-full", className)}>
+            <div className="h-16 flex items-center px-6 border-b border-slate-100 dark:border-slate-900 shrink-0">
+                <Link href="/dashboard" className="flex items-center gap-2" onClick={onItemClick}>
                     <div className="p-1.5 rounded-lg bg-primary/10">
                         <Activity className="h-5 w-5 text-primary" />
                     </div>
@@ -43,6 +43,7 @@ export function DashboardSidebar() {
                         <Link
                             key={link.name}
                             href={link.href}
+                            onClick={onItemClick}
                             className={cn(
                                 "flex items-center justify-between px-3 py-2.5 text-sm font-semibold rounded-xl transition-all group",
                                 isActive
@@ -63,7 +64,7 @@ export function DashboardSidebar() {
                 })}
             </nav>
 
-            <div className="p-4 border-t border-slate-100 dark:border-slate-900">
+            <div className="p-4 border-t border-slate-100 dark:border-slate-900 shrink-0">
                 <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-800">
                     <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Hospital Status</p>
                     <div className="flex items-center gap-2">
@@ -72,6 +73,14 @@ export function DashboardSidebar() {
                     </div>
                 </div>
             </div>
+        </div>
+    );
+}
+
+export function DashboardSidebar() {
+    return (
+        <aside className="hidden md:flex w-64 flex-col bg-white/70 dark:bg-slate-950/70 backdrop-blur-md border-r border-slate-200 dark:border-slate-800 transition-colors duration-300">
+            <SidebarContent />
         </aside>
     );
 }

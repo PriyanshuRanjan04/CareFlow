@@ -6,12 +6,29 @@ import { GlobalSearch } from "./GlobalSearch";
 import { ThemeToggle } from "./ThemeToggle";
 import { EmergencyModal } from "./EmergencyModal";
 import { NotificationPopover } from "./NotificationPopover";
+import { Menu } from "lucide-react";
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
+import { SidebarContent } from "./DashboardSidebar";
+import { Button } from "@/components/ui/button";
 
 export function DashboardHeader() {
     return (
-        <header className="h-16 bg-white/70 dark:bg-slate-950/70 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-8 shrink-0 transition-colors duration-300">
-            <div className="flex items-center flex-1">
-                <GlobalSearch />
+        <header className="h-16 bg-white/70 dark:bg-slate-950/70 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-4 md:px-8 shrink-0 transition-colors duration-300">
+            <div className="flex items-center gap-4 flex-1">
+                <Sheet>
+                    <SheetTrigger asChild>
+                        <Button variant="ghost" size="icon" className="md:hidden">
+                            <Menu className="h-5 w-5" />
+                        </Button>
+                    </SheetTrigger>
+                    <SheetContent side="left" className="p-0 w-72 bg-white/95 dark:bg-slate-950/95 backdrop-blur-xl border-r-slate-200 dark:border-r-slate-800">
+                        <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
+                        <SidebarContent />
+                    </SheetContent>
+                </Sheet>
+                <div className="flex-1 max-w-sm">
+                    <GlobalSearch />
+                </div>
             </div>
 
             <div className="flex items-center gap-2 md:gap-4 ml-4">

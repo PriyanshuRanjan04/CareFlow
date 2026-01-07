@@ -65,7 +65,7 @@ export function GlobalSearch() {
     }, [query]);
 
     return (
-        <div className="relative w-full max-w-sm hidden lg:block" ref={dropdownRef}>
+        <div className="relative w-full max-w-sm" ref={dropdownRef}>
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
             <Input
                 id="global-search-input"
