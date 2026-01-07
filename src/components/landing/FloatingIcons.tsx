@@ -16,17 +16,18 @@ import {
 import { useEffect } from "react";
 
 const icons = [
-    { icon: Activity, color: "text-blue-200", size: 40, top: "15%", left: "10%", depth: 0.2 },
-    { icon: Heart, color: "text-red-100", size: 32, top: "25%", left: "85%", depth: 0.15 },
-    { icon: Shield, color: "text-emerald-100", size: 48, top: "65%", left: "15%", depth: 0.1 },
-    { icon: Plus, color: "text-purple-100", size: 24, top: "80%", left: "80%", depth: 0.25 },
-    { icon: HeartPulse, color: "text-blue-100", size: 36, top: "50%", left: "90%", depth: 0.12 },
-    { icon: Stethoscope, color: "text-slate-200", size: 44, top: "10%", left: "70%", depth: 0.18 },
-    { icon: Microscope, color: "text-indigo-100", size: 56, top: "40%", left: "5%", depth: 0.08 },
-    { icon: Pill, color: "text-amber-100", size: 28, top: "85%", left: "20%", depth: 0.3 },
-    { icon: Thermometer, color: "text-orange-100", size: 32, top: "70%", left: "60%", depth: 0.22 },
-    { icon: Syringe, color: "text-blue-100", size: 40, top: "35%", left: "45%", depth: 0.05 },
+    { icon: Activity, color: "text-blue-400", size: 40, top: "15%", left: "10%", depth: 0.3 },
+    { icon: Heart, color: "text-red-400", size: 32, top: "25%", left: "85%", depth: 0.2 },
+    { icon: Shield, color: "text-emerald-400", size: 48, top: "65%", left: "15%", depth: 0.15 },
+    { icon: Plus, color: "text-purple-400", size: 24, top: "80%", left: "80%", depth: 0.4 },
+    { icon: HeartPulse, color: "text-blue-500", size: 36, top: "50%", left: "90%", depth: 0.25 },
+    { icon: Stethoscope, color: "text-slate-400", size: 44, top: "10%", left: "70%", depth: 0.35 },
+    { icon: Microscope, color: "text-indigo-400", size: 56, top: "40%", left: "5%", depth: 0.1 },
+    { icon: Pill, color: "text-amber-400", size: 28, top: "85%", left: "20%", depth: 0.45 },
+    { icon: Thermometer, color: "text-orange-400", size: 32, top: "70%", left: "60%", depth: 0.3 },
+    { icon: Syringe, color: "text-blue-400", size: 40, top: "35%", left: "45%", depth: 0.12 },
 ];
+
 
 export function FloatingIcons() {
     const mouseX = useMotionValue(0);
