@@ -18,9 +18,7 @@ export default async function LandingPage() {
 
       <main className="flex-1 pt-16">
         {/* Hero Section */}
-        <section className="w-full py-20 md:py-32 lg:py-48 bg-gradient-to-b from-slate-50 to-white relative overflow-hidden">
-          <EKGLine />
-          <FloatingIcons />
+        <section className="w-full py-20 md:py-32 lg:py-48 bg-gradient-to-b from-slate-50 to-white dark:from-slate-900/50 dark:to-slate-950 relative overflow-hidden">
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
 
           <div className="container px-4 md:px-6 mx-auto relative z-10">
