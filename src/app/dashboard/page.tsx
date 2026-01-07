@@ -12,6 +12,7 @@ import { format } from "date-fns";
 import { AddPatientModal } from "@/components/dashboard/AddPatientModal";
 import { DownloadReportButton } from "@/components/dashboard/DownloadReportButton";
 import { QuickAppointmentModal } from "@/components/dashboard/QuickAppointmentModal";
+import { AddDoctorModal } from "@/components/dashboard/AddDoctorModal";
 
 export default async function DashboardPage() {
     const user = await currentUser();
@@ -67,6 +68,7 @@ export default async function DashboardPage() {
                 <div className="flex items-center gap-3">
                     <DownloadReportButton />
                     <QuickAppointmentModal patients={patientsList} doctors={doctorsList} />
+                    <AddDoctorModal />
                     <AddPatientModal />
                 </div>
             </div>
