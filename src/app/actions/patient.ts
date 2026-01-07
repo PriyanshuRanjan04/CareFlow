@@ -5,7 +5,7 @@ import prisma from "@/lib/prisma";
 import { currentUser } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 
-const patientSchema = z.object({
+const patientFormSchema = z.object({
     name: z.string().min(2, "Name must be at least 2 characters"),
     email: z.string().email("Invalid email address"),
     phone: z.string().min(10, "Phone number must be at least 10 characters"),
@@ -16,7 +16,7 @@ const patientSchema = z.object({
     address: z.string().optional(),
 });
 
-export type PatientFormData = z.infer<typeof patientSchema>;
+export type PatientFormData = z.infer<typeof patientFormSchema>;
 
 export async function createPatient(data: PatientFormData) {
     const user = await currentUser();
@@ -25,25 +25,18 @@ export async function createPatient(data: PatientFormData) {
         return { success: false, error: "Unauthorized" };
     }
 
-    const result = patientSchema.safeParse(data);
+    const result = patientFormSchema.safeParse(data);
 
     if (!result.success) {
         return { success: false, error: result.error.flatten().fieldErrors };
     }
 
     try {
-        // Create a user record for the patient first (since Patient has a relation to User)
-        // In a real app, you might want a different flow, but for this schema:
-        // Patient -> User (relation)
-
-        // Check if user already exists
         let patientUser = await prisma.user.findUnique({
             where: { email: data.email }
         });
 
         if (!patientUser) {
-            // Create a dummy Clerk ID for now since this is an internal add
-            // In production, you'd invite the user via Clerk
             patientUser = await prisma.user.create({
                 data: {
                     email: data.email,
@@ -65,10 +58,95 @@ export async function createPatient(data: PatientFormData) {
         });
 
         revalidatePath("/dashboard");
+        revalidatePath("/dashboard/patients");
         return { success: true, patient: newPatient };
 
     } catch (error) {
         console.error("Failed to create patient:", error);
         return { success: false, error: "Failed to create patient" };
+    }
+}
+
+export async function updatePatient(id: string, data: PatientFormData) {
+    const user = await currentUser();
+
+    if (!user) {
+        return { success: false, error: "Unauthorized" };
+    }
+
+    const result = patientFormSchema.safeParse(data);
+
+    if (!result.success) {
+        return { success: false, error: result.error.flatten().fieldErrors };
+    }
+
+    try {
+        // Update both User (Name/Email) and Patient records
+        const patient = await prisma.patient.findUnique({
+            where: { id },
+            include: { user: true }
+        });
+
+        if (!patient) {
+            return { success: false, error: "Patient not found" };
+        }
+
+        await prisma.$transaction([
+            prisma.user.update({
+                where: { id: patient.userId },
+                data: {
+                    name: data.name,
+                    email: data.email,
+                }
+            }),
+            prisma.patient.update({
+                where: { id },
+                data: {
+                    gender: data.gender,
+                    phoneNumber: data.phone,
+                    dateOfBirth: new Date(data.dob),
+                    address: data.address || "",
+                }
+            })
+        ]);
+
+        revalidatePath("/dashboard");
+        revalidatePath("/dashboard/patients");
+        return { success: true };
+
+    } catch (error) {
+        console.error("Failed to update patient:", error);
+        return { success: false, error: "Failed to update patient" };
+    }
+}
+
+export async function deletePatient(patientId: string) {
+    const user = await currentUser();
+    if (!user) {
+        return { success: false, error: "Unauthorized" };
+    }
+
+    try {
+        await prisma.$transaction([
+            // 1. Delete related Medical Records
+            prisma.medicalRecord.deleteMany({
+                where: { patientId },
+            }),
+            // 2. Delete related Appointments
+            prisma.appointment.deleteMany({
+                where: { patientId },
+            }),
+            // 3. Delete the Patient record
+            prisma.patient.delete({
+                where: { id: patientId },
+            }),
+        ]);
+
+        revalidatePath("/dashboard/patients");
+        revalidatePath("/dashboard");
+        return { success: true };
+    } catch (error) {
+        console.error("Failed to delete patient:", error);
+        return { success: false, error: "Failed to delete patient" };
     }
 }

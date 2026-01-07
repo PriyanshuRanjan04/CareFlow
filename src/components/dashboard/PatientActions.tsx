@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Eye, Trash2, Loader2 } from "lucide-react";
+import { Eye, Trash2, Loader2, Pencil } from "lucide-react";
 import { User, Patient } from "@prisma/client";
 import { PatientDetailsSheet } from "./PatientDetailsSheet";
-import { deletePatient } from "@/app/actions/deletePatient";
+import { EditPatientModal } from "./EditPatientModal";
+import { deletePatient } from "@/app/actions/patient";
 import { toast } from "sonner";
 import {
     Dialog,
@@ -25,6 +26,7 @@ interface PatientActionsProps {
 
 export function PatientActions({ patient }: PatientActionsProps) {
     const [showDetails, setShowDetails] = useState(false);
+    const [showEdit, setShowEdit] = useState(false);
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
 
@@ -60,6 +62,15 @@ export function PatientActions({ patient }: PatientActionsProps) {
                 <Button
                     variant="ghost"
                     size="icon"
+                    className="h-8 w-8 text-slate-600 hover:text-primary hover:bg-slate-50"
+                    onClick={() => setShowEdit(true)}
+                    title="Edit Patient"
+                >
+                    <Pencil className="h-4 w-4" />
+                </Button>
+                <Button
+                    variant="ghost"
+                    size="icon"
                     className="h-8 w-8 text-red-600 hover:text-red-700 hover:bg-red-50"
                     onClick={() => setShowDeleteDialog(true)}
                     title="Delete Patient"
@@ -72,6 +83,12 @@ export function PatientActions({ patient }: PatientActionsProps) {
                 patient={patient}
                 open={showDetails}
                 onOpenChange={setShowDetails}
+            />
+
+            <EditPatientModal
+                patient={patient}
+                open={showEdit}
+                onOpenChange={setShowEdit}
             />
 
             <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
