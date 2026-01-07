@@ -40,10 +40,10 @@ export default function LandingPage() {
               </div>
               <div className="space-x-4">
                 <Button size="lg" className="px-8" asChild>
-                  <Link href="/sign-up">Start Free Trial <ArrowRight className="ml-2 h-4 w-4" /></Link>
+                  <Link href="/sign-up">Access Dashboard <ArrowRight className="ml-2 h-4 w-4" /></Link>
                 </Button>
                 <Button variant="outline" size="lg" className="px-8" asChild>
-                  <Link href="/sign-in">View Demo</Link>
+                  <Link href="#features">Learn More</Link>
                 </Button>
               </div>
             </div>

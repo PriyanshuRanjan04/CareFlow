@@ -1,4 +1,5 @@
 import { AddPatientModal } from "@/components/dashboard/AddPatientModal";
+import { DownloadReportButton } from "@/components/dashboard/DownloadReportButton";
 import prisma from "@/lib/prisma";
 import { format } from "date-fns";
 import {
@@ -32,7 +33,10 @@ export default async function PatientsPage() {
                     <h2 className="text-2xl font-bold tracking-tight">Patients</h2>
                     <p className="text-muted-foreground">Manage your patient records here.</p>
                 </div>
-                <AddPatientModal />
+                <div className="flex items-center gap-2">
+                    <DownloadReportButton />
+                    <AddPatientModal />
+                </div>
             </div>
 
             <Card>

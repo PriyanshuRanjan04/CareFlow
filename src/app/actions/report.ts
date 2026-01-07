@@ -4,37 +4,35 @@ import prisma from "@/lib/prisma";
 import { currentUser } from "@clerk/nextjs/server";
 import { format } from "date-fns";
 
-export async function generateAppointmentReport() {
+export async function generatePatientReport() {
     const user = await currentUser();
     if (!user) return { success: false, error: "Unauthorized" };
 
     try {
-        const appointments = await prisma.appointment.findMany({
-            include: {
-                patient: { include: { user: true } },
-                doctor: { include: { user: true } }
-            },
-            orderBy: { dateTime: 'desc' },
-            take: 100 // Limit to last 100 for performance in this demo
+        const patients = await prisma.patient.findMany({
+            include: { user: true },
+            orderBy: { user: { name: 'asc' } }
         });
 
-        const header = "Date,Time,Patient Name,Doctor Name,Status,Reason\n";
-        const rows = appointments.map(app => {
-            const date = format(new Date(app.dateTime), "yyyy-MM-dd");
-            const time = format(new Date(app.dateTime), "HH:mm");
-            const patientName = app.patient.user.name || "Unknown";
-            const doctorName = app.doctor.user.name || "Unknown";
-            const reason = app.reason || "N/A";
+        const header = "Name,Email,Phone,Gender,Date of Birth,Address\n";
+        const rows = patients.map(p => {
+            const name = p.user.name || "Unknown";
+            const email = p.user.email || "N/A";
+            const phone = p.phoneNumber || "N/A";
+            const gender = p.gender || "N/A";
+            const dob = p.dateOfBirth ? format(new Date(p.dateOfBirth), "yyyy-MM-dd") : "N/A";
+            const address = p.address || "N/A";
 
             // Escape commas in CSV
             const sanitize = (str: string) => `"${str.replace(/"/g, '""')}"`;
 
-            return `${date},${time},${sanitize(patientName)},${sanitize(doctorName)},${app.status},${sanitize(reason)}`;
+            return `${sanitize(name)},${sanitize(email)},${sanitize(phone)},${gender},${dob},${sanitize(address)}`;
         }).join("\n");
 
         return { success: true, csv: header + rows };
     } catch (error) {
-        console.error("Report generation failed:", error);
+        console.error("Patient report generation failed:", error);
         return { success: false, error: "Failed to generate report" };
     }
 }
+
