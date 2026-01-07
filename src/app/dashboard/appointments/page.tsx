@@ -39,20 +39,20 @@ export default async function AppointmentsPage() {
                 </div>
             </div>
 
-            <Card className="border-slate-200 shadow-sm overflow-hidden">
-                <CardHeader className="bg-slate-50/50 border-b border-slate-200">
-                    <CardTitle className="text-lg font-bold text-slate-800">Appointment Ledger</CardTitle>
+            <Card className="border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden bg-white dark:bg-slate-950">
+                <CardHeader className="bg-slate-50/50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-800">
+                    <CardTitle className="text-lg font-bold text-slate-800 dark:text-slate-100">Appointment Ledger</CardTitle>
                 </CardHeader>
                 <CardContent className="p-0">
                     <Table>
                         <TableHeader>
-                            <TableRow className="bg-slate-50/50 hover:bg-slate-50/50">
-                                <TableHead className="font-bold text-slate-700">Date & Time</TableHead>
-                                <TableHead className="font-bold text-slate-700">Patient</TableHead>
-                                <TableHead className="font-bold text-slate-700">Doctor</TableHead>
-                                <TableHead className="font-bold text-slate-700">Status</TableHead>
-                                <TableHead className="font-bold text-slate-700">Reason</TableHead>
-                                <TableHead className="text-right font-bold text-slate-700 pr-6">Actions</TableHead>
+                            <TableRow className="bg-slate-50/50 dark:bg-slate-900/50 hover:bg-slate-50/50 dark:hover:bg-slate-900/50 border-slate-200 dark:border-slate-800">
+                                <TableHead className="font-bold text-slate-700 dark:text-slate-300">Date & Time</TableHead>
+                                <TableHead className="font-bold text-slate-700 dark:text-slate-300">Patient</TableHead>
+                                <TableHead className="font-bold text-slate-700 dark:text-slate-300">Doctor</TableHead>
+                                <TableHead className="font-bold text-slate-700 dark:text-slate-300">Status</TableHead>
+                                <TableHead className="font-bold text-slate-700 dark:text-slate-300">Reason</TableHead>
+                                <TableHead className="text-right font-bold text-slate-700 dark:text-slate-300 pr-6">Actions</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -64,26 +64,26 @@ export default async function AppointmentsPage() {
                                 </TableRow>
                             ) : (
                                 appointments.map((apt) => (
-                                    <TableRow key={apt.id} className="hover:bg-slate-50/50 transition-colors">
+                                    <TableRow key={apt.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-900/30 transition-colors border-slate-100 dark:border-slate-800">
                                         <TableCell>
                                             <div className="flex flex-col">
-                                                <span className="font-bold text-slate-900">{format(new Date(apt.dateTime), "PP")}</span>
-                                                <span className="text-xs text-slate-500">{format(new Date(apt.dateTime), "p")}</span>
+                                                <span className="font-bold text-slate-900 dark:text-slate-100">{format(new Date(apt.dateTime), "PP")}</span>
+                                                <span className="text-xs text-slate-500 dark:text-slate-400">{format(new Date(apt.dateTime), "p")}</span>
                                             </div>
                                         </TableCell>
-                                        <TableCell className="font-medium text-slate-700">{apt.patient.user.name}</TableCell>
-                                        <TableCell className="font-medium text-slate-700">{apt.doctor.user.name}</TableCell>
+                                        <TableCell className="font-medium text-slate-700 dark:text-slate-300">{apt.patient.user.name}</TableCell>
+                                        <TableCell className="font-medium text-slate-700 dark:text-slate-300">{apt.doctor.user.name}</TableCell>
                                         <TableCell>
                                             <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-bold transition-colors ${apt.status === 'COMPLETED'
-                                                    ? 'bg-emerald-100 text-emerald-800 border border-emerald-200'
-                                                    : apt.status === 'CANCELLED'
-                                                        ? 'bg-rose-100 text-rose-800 border border-rose-200'
-                                                        : 'bg-amber-100 text-amber-800 border border-amber-200'
+                                                ? 'bg-emerald-100 text-emerald-800 border border-emerald-200'
+                                                : apt.status === 'CANCELLED'
+                                                    ? 'bg-rose-100 text-rose-800 border border-rose-200'
+                                                    : 'bg-amber-100 text-amber-800 border border-amber-200'
                                                 }`}>
                                                 {apt.status}
                                             </span>
                                         </TableCell>
-                                        <TableCell className="max-w-[200px] truncate text-slate-600 italic">
+                                        <TableCell className="max-w-[200px] truncate text-slate-600 dark:text-slate-400 italic">
                                             "{apt.reason || "N/A"}"
                                         </TableCell>
                                         <TableCell className="text-right pr-6">
