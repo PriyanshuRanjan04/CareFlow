@@ -1,7 +1,28 @@
-import { Button } from "@/components/ui/button";
-import { PlusCircle } from "lucide-react";
+import { AddPatientModal } from "@/components/dashboard/AddPatientModal";
+import prisma from "@/lib/prisma";
+import { format } from "date-fns";
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-export default function PatientsPage() {
+export default async function PatientsPage() {
+    const patients = await prisma.patient.findMany({
+        include: {
+            user: true,
+        },
+        orderBy: {
+            user: {
+                name: 'asc',
+            }
+        }
+    });
+
     return (
         <div className="space-y-6">
             <div className="flex items-center justify-between">
@@ -9,14 +30,50 @@ export default function PatientsPage() {
                     <h2 className="text-2xl font-bold tracking-tight">Patients</h2>
                     <p className="text-muted-foreground">Manage your patient records here.</p>
                 </div>
-                <Button>
-                    <PlusCircle className="mr-2 h-4 w-4" />
-                    Add Patient
-                </Button>
+                <AddPatientModal />
             </div>
-            <div className="flex items-center justify-center h-64 border rounded-lg bg-slate-50 border-slate-200 border-dashed">
-                <p className="text-muted-foreground">Patient list implementation coming soon.</p>
-            </div>
+
+            <Card>
+                <CardHeader>
+                    <CardTitle>All Patients</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Name</TableHead>
+                                <TableHead>Email</TableHead>
+                                <TableHead>Phone</TableHead>
+                                <TableHead>Gender</TableHead>
+                                <TableHead>Date of Birth</TableHead>
+                                <TableHead>Actions</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {patients.length === 0 ? (
+                                <TableRow>
+                                    <TableCell colSpan={6} className="text-center h-24 text-muted-foreground">
+                                        No patients found. Add one to get started.
+                                    </TableCell>
+                                </TableRow>
+                            ) : (
+                                patients.map((patient) => (
+                                    <TableRow key={patient.id}>
+                                        <TableCell className="font-medium">{patient.user.name}</TableCell>
+                                        <TableCell>{patient.user.email}</TableCell>
+                                        <TableCell>{patient.phoneNumber}</TableCell>
+                                        <TableCell>{patient.gender}</TableCell>
+                                        <TableCell>{patient.dateOfBirth ? format(new Date(patient.dateOfBirth), "PP") : "N/A"}</TableCell>
+                                        <TableCell>
+                                            <span className="text-muted-foreground text-sm italic">View Details</span>
+                                        </TableCell>
+                                    </TableRow>
+                                ))
+                            )}
+                        </TableBody>
+                    </Table>
+                </CardContent>
+            </Card>
         </div>
     );
 }
