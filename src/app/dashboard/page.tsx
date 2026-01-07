@@ -10,6 +10,7 @@ import { currentUser } from "@clerk/nextjs/server";
 import prisma from "@/lib/prisma";
 import { format } from "date-fns";
 import { AddPatientModal } from "@/components/dashboard/AddPatientModal";
+import { DownloadReportButton } from "@/components/dashboard/DownloadReportButton";
 
 export default async function DashboardPage() {
     const user = await currentUser();
@@ -49,12 +50,7 @@ export default async function DashboardPage() {
                     </h2>
                     <p className="text-slate-500">Here's what's happening at your clinic today.</p>
                 </div>
-                import {AddPatientModal} from "@/components/dashboard/AddPatientModal";
 
-                // ... inside component ...
-                import {DownloadReportButton} from "@/components/dashboard/DownloadReportButton";
-
-                // ... inside the component ...
                 <div className="flex items-center gap-3">
                     <DownloadReportButton />
                     <AddPatientModal />
