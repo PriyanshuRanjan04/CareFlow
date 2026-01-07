@@ -62,7 +62,9 @@ export function EmergencyModal() {
                             </p>
                             <div className="flex items-center justify-between">
                                 <span className="text-2xl font-black text-slate-900 dark:text-white">112</span>
-                                <Button size="sm" variant="outline" className="h-8 rounded-lg border-red-200 text-red-600 font-bold hover:bg-red-600 hover:text-white transition-all">CALL</Button>
+                                <Button size="sm" variant="outline" className="h-8 rounded-lg border-red-200 text-red-600 font-bold hover:bg-red-600 hover:text-white transition-all shadow-sm active:scale-95" asChild>
+                                    <a href="tel:112">CALL</a>
+                                </Button>
                             </div>
                         </div>
                         <div className="p-4 rounded-2xl bg-blue-50 dark:bg-blue-950/10 border border-blue-100 dark:border-blue-900/40 space-y-2">
@@ -71,7 +73,9 @@ export function EmergencyModal() {
                             </p>
                             <div className="flex items-center justify-between">
                                 <span className="text-2xl font-black text-slate-900 dark:text-white">108 / 102</span>
-                                <Button size="sm" variant="outline" className="h-8 rounded-lg border-blue-200 text-blue-600 font-bold hover:bg-blue-600 hover:text-white transition-all">CALL</Button>
+                                <Button size="sm" variant="outline" className="h-8 rounded-lg border-blue-200 text-blue-600 font-bold hover:bg-blue-600 hover:text-white transition-all shadow-sm active:scale-95" asChild>
+                                    <a href="tel:108">CALL</a>
+                                </Button>
                             </div>
                         </div>
                     </div>
@@ -79,24 +83,24 @@ export function EmergencyModal() {
                     {/* Active Hospital Codes */}
                     <div className="space-y-3 pt-2">
                         <p className="text-xs font-black uppercase tracking-[0.3em] text-slate-400 px-1">Active Protocols</p>
-                        <div className="grid grid-cols-1 gap-2">
-                            <div className="flex items-center justify-between p-4 rounded-xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950 hover:bg-red-50 dark:hover:bg-red-950/20 transition-all cursor-pointer">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div className="flex items-center justify-between p-4 rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950 hover:bg-red-50 dark:hover:bg-red-950/20 transition-all cursor-pointer group/protocol">
                                 <div className="flex items-center gap-3">
-                                    <div className="w-10 h-10 rounded-lg bg-red-100 dark:bg-red-900/30 flex items-center justify-center text-red-600">
+                                    <div className="w-10 h-10 rounded-lg bg-red-100 dark:bg-red-900/30 flex items-center justify-center text-red-600 group-hover/protocol:scale-110 transition-transform">
                                         <Flame size={20} />
                                     </div>
                                     <span className="font-black text-slate-900 dark:text-white uppercase tracking-tight">Code Red</span>
                                 </div>
-                                <span className="text-[10px] font-bold text-red-500 bg-red-50 dark:bg-red-900/20 px-2 py-1 rounded-md">Fire Emergency</span>
+                                <span className="text-[10px] font-bold text-red-500 bg-red-50 dark:bg-red-900/20 px-2 py-1 rounded-md">Fire</span>
                             </div>
-                            <div className="flex items-center justify-between p-4 rounded-xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950 hover:bg-blue-50 dark:hover:bg-blue-950/20 transition-all cursor-pointer">
+                            <div className="flex items-center justify-between p-4 rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950 hover:bg-blue-50 dark:hover:bg-blue-950/20 transition-all cursor-pointer group/protocol">
                                 <div className="flex items-center gap-3">
-                                    <div className="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600">
+                                    <div className="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 group-hover/protocol:scale-110 transition-transform">
                                         <HeartPulse size={20} />
                                     </div>
                                     <span className="font-black text-slate-900 dark:text-white uppercase tracking-tight">Code Blue</span>
                                 </div>
-                                <span className="text-[10px] font-bold text-blue-500 bg-blue-50 dark:bg-blue-900/20 px-2 py-1 rounded-md">Cardiac Alert</span>
+                                <span className="text-[10px] font-bold text-blue-500 bg-blue-50 dark:bg-blue-900/20 px-2 py-1 rounded-md">Cardiac</span>
                             </div>
                         </div>
                     </div>
