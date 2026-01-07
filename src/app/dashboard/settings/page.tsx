@@ -55,11 +55,11 @@ export default function SettingsPage() {
                             <div className="grid md:grid-cols-2 gap-6">
                                 <div className="space-y-2">
                                     <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500">First Name</label>
-                                    <Input defaultValue={user?.firstName || ""} variant="outline" className="h-12 rounded-xl bg-slate-50/50 dark:bg-slate-950/50 border-slate-200/60 dark:border-slate-800 focus:ring-primary/20" />
+                                    <Input defaultValue={user?.firstName || ""} className="h-12 rounded-xl bg-slate-50/50 dark:bg-slate-950/50 border-slate-200/60 dark:border-slate-800 focus:ring-primary/20" />
                                 </div>
                                 <div className="space-y-2">
                                     <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500">Last Name</label>
-                                    <Input defaultValue={user?.lastName || ""} variant="outline" className="h-12 rounded-xl bg-slate-50/50 dark:bg-slate-950/50 border-slate-200/60 dark:border-slate-800 focus:ring-primary/20" />
+                                    <Input defaultValue={user?.lastName || ""} className="h-12 rounded-xl bg-slate-50/50 dark:bg-slate-950/50 border-slate-200/60 dark:border-slate-800 focus:ring-primary/20" />
                                 </div>
                                 <div className="space-y-2 md:col-span-2">
                                     <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500">Primary Email Address</label>
