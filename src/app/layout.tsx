@@ -6,7 +6,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "MediCare HMS | Modern Healthcare Management",
+  title: "CareFlow | Modern Healthcare Management",
   description: "A comprehensive and secure Hospital Management System for patients, doctors, and administrators.",
 };
 

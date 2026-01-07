@@ -9,7 +9,7 @@ export default function LandingPage() {
       <header className="px-4 lg:px-6 h-16 flex items-center border-b border-slate-100">
         <Link className="flex items-center justify-center gap-2" href="#">
           <Activity className="h-6 w-6 text-primary" />
-          <span className="font-bold text-xl tracking-tight">MediCare HMS</span>
+          <span className="font-bold text-xl tracking-tight">CareFlow</span>
         </Link>
         <nav className="ml-auto flex gap-4 sm:gap-6">
           <Link className="text-sm font-medium hover:text-primary transition-colors" href="#features">
@@ -89,7 +89,7 @@ export default function LandingPage() {
       <footer className="w-full py-6 bg-slate-50 border-t border-slate-100">
         <div className="container px-4 md:px-6 mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
           <p className="text-xs text-slate-500">
-            © 2026 MediCare HMS. All rights reserved. Built for showcase.
+            © 2026 CareFlow. All rights reserved. Built for showcase.
           </p>
           <nav className="flex gap-4 sm:gap-6">
             <Link className="text-xs hover:underline underline-offset-4 text-slate-500" href="#">
