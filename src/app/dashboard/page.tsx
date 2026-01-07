@@ -67,10 +67,10 @@ export default async function DashboardPage() {
             {/* Welcome Section */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h2 className="text-2xl font-bold font-tight text-slate-900">
+                    <h2 className="text-3xl font-black font-tight text-slate-900 dark:text-white uppercase transition-colors">
                         Welcome back, {user?.firstName || "Doctor"}
                     </h2>
-                    <p className="text-slate-500">Here's what's happening at your clinic today.</p>
+                    <p className="text-slate-500 dark:text-slate-400 font-medium">Here's what's happening at your clinic today.</p>
                 </div>
 
                 <div className="flex items-center gap-3">
@@ -83,13 +83,13 @@ export default async function DashboardPage() {
             {/* Stats Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {stats.map((stat) => (
-                    <div key={stat.name} className="p-6 rounded-xl bg-white border border-slate-200 shadow-sm flex items-start justify-between">
+                    <div key={stat.name} className="p-6 rounded-2xl bg-white/70 dark:bg-slate-900/70 backdrop-blur-md border border-slate-200 dark:border-slate-800 shadow-sm flex items-start justify-between group hover:shadow-lg transition-all">
                         <div>
-                            <p className="text-sm font-medium text-slate-500">{stat.name}</p>
-                            <h3 className="text-2xl font-bold text-slate-900 mt-1">{stat.value}</h3>
+                            <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">{stat.name}</p>
+                            <h3 className="text-3xl font-black text-slate-900 dark:text-white mt-2">{stat.value}</h3>
                         </div>
-                        <div className={`p-2 rounded-lg ${stat.bg} ${stat.color}`}>
-                            <stat.icon className="h-5 w-5" />
+                        <div className={`p-3 rounded-xl ${stat.bg} dark:${stat.bg.replace('bg-', 'bg-opacity-20 bg-')} ${stat.color} group-hover:scale-110 transition-transform`}>
+                            <stat.icon className="h-6 w-6" />
                         </div>
                     </div>
                 ))}
@@ -97,9 +97,9 @@ export default async function DashboardPage() {
 
 // Activity Section
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div className="lg:col-span-2 p-6 rounded-xl bg-white border border-slate-200 shadow-sm">
+                <div className="lg:col-span-2 p-6 rounded-3xl bg-white/70 dark:bg-slate-900/70 backdrop-blur-md border border-slate-200 dark:border-slate-800 shadow-sm">
                     <div className="flex items-center justify-between mb-6">
-                        <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+                        <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                             <Activity className="h-5 w-5 text-primary" />
                             Recent Appointments
                         </h3>
@@ -115,27 +115,27 @@ export default async function DashboardPage() {
                             </div>
                         ) : (
                             recentAppointments.map((appointment) => (
-                                <div key={appointment.id} className="flex items-center justify-between p-4 rounded-xl border border-slate-100 bg-white hover:bg-slate-50/50 hover:shadow-md hover:shadow-slate-100 transition-all group">
+                                <div key={appointment.id} className="flex items-center justify-between p-4 rounded-2xl border border-slate-100 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 hover:bg-slate-50 dark:hover:bg-slate-800/80 hover:shadow-md transition-all group">
                                     <div className="flex items-center gap-4">
-                                        <div className="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center font-bold text-slate-600 transition-colors group-hover:bg-blue-100 group-hover:text-blue-600">
+                                        <div className="w-12 h-12 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center font-bold text-slate-600 dark:text-slate-400 transition-colors group-hover:bg-blue-100 dark:group-hover:bg-blue-900/30 group-hover:text-blue-600 dark:group-hover:text-blue-400">
                                             {appointment.patient.user.name?.substring(0, 2).toUpperCase() || "PT"}
                                         </div>
                                         <div>
                                             <div className="flex items-center gap-2">
-                                                <p className="text-sm font-bold text-slate-900">
+                                                <p className="text-sm font-bold text-slate-900 dark:text-white">
                                                     {appointment.patient.user.name || "Unknown Patient"}
                                                 </p>
-                                                <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider ${appointment.status === 'COMPLETED' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'
+                                                <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider ${appointment.status === 'COMPLETED' ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400' : 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400'
                                                     }`}>
                                                     {appointment.status}
                                                 </span>
                                             </div>
-                                            <p className="text-xs text-slate-500 font-medium">
-                                                {format(new Date(appointment.dateTime), "MMM d, h:mm a")} • <span className="italic text-slate-400">"{appointment.reason || "General Checkup"}"</span>
+                                            <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
+                                                {format(new Date(appointment.dateTime), "MMM d, h:mm a")} • <span className="italic text-slate-400 dark:text-slate-500">"{appointment.reason || "General Checkup"}"</span>
                                             </p>
                                         </div>
                                     </div>
-                                    <Button variant="ghost" size="sm" className="text-slate-400 hover:text-primary" asChild>
+                                    <Button variant="ghost" size="sm" className="text-slate-400 hover:text-primary dark:hover:text-primary-foreground" asChild>
                                         <Link href="/dashboard/appointments">Details</Link>
                                     </Button>
                                 </div>
