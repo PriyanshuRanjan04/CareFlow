@@ -13,9 +13,9 @@ export async function searchHealthcare(query: string) {
         const [patients, doctors] = await Promise.all([
             prisma.patient.findMany({
                 where: {
-                    OR: [
-                        { name: { contains: query, mode: "insensitive" } },
-                    ],
+                    user: {
+                        name: { contains: query, mode: "insensitive" }
+                    }
                 },
                 take: 5,
                 include: { user: true }
@@ -23,7 +23,7 @@ export async function searchHealthcare(query: string) {
             prisma.doctor.findMany({
                 where: {
                     OR: [
-                        { name: { contains: query, mode: "insensitive" } },
+                        { user: { name: { contains: query, mode: "insensitive" } } },
                         { bio: { contains: query, mode: "insensitive" } }, // 'bio' is currently used for 'department'
                     ],
                 },
@@ -35,8 +35,8 @@ export async function searchHealthcare(query: string) {
         return {
             success: true,
             results: [
-                ...patients.map(p => ({ id: p.id, name: p.name, type: "Patient", href: `/dashboard/patients` })),
-                ...doctors.map(d => ({ id: d.id, name: d.name, type: "Doctor", href: `/dashboard/doctors` }))
+                ...patients.map(p => ({ id: p.id, name: p.user.name || "Unknown Patient", type: "Patient", href: `/dashboard/patients` })),
+                ...doctors.map(d => ({ id: d.id, name: d.user.name || "Unknown Doctor", type: "Doctor", href: `/dashboard/doctors` }))
             ]
         };
     } catch (error) {
