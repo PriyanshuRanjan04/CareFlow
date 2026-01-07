@@ -4,7 +4,7 @@ import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { currentUser } from "@clerk/nextjs/server";
 import { z } from "zod";
-import { sendAppointmentEmail } from "@/lib/resend";
+import { sendAppointmentEmail, sendCompletionEmail } from "@/lib/resend";
 import { format } from "date-fns";
 
 const appointmentSchema = z.object({
@@ -88,6 +88,18 @@ export async function completeAppointment(data: z.infer<typeof diagnosisSchema>)
     }
 
     try {
+        // Fetch appointment and patient details for email notification
+        const appointment = await prisma.appointment.findUnique({
+            where: { id: data.appointmentId },
+            include: {
+                patient: {
+                    include: {
+                        user: true
+                    }
+                }
+            }
+        });
+
         await prisma.$transaction([
             // 1. Update Appointment Status
             prisma.appointment.update({
@@ -104,6 +116,16 @@ export async function completeAppointment(data: z.infer<typeof diagnosisSchema>)
                 },
             }),
         ]);
+
+        // Trigger Completion Email
+        if (appointment?.patient.user.email) {
+            await sendCompletionEmail(
+                appointment.patient.user.email,
+                appointment.patient.user.name || "Patient",
+                data.diagnosis,
+                data.treatment
+            );
+        }
 
         revalidatePath("/dashboard");
         revalidatePath("/dashboard/appointments");

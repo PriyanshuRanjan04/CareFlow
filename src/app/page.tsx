@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Activity, Shield, Users, Calendar } from "lucide-react";
 import { LandingHeader } from "@/components/landing/LandingHeader";
 import { FloatingIcons } from "@/components/landing/FloatingIcons";
+import { EKGLine } from "@/components/landing/EKGLine";
+import { ContactForm } from "@/components/landing/ContactForm";
 import { LandingStats } from "@/components/landing/LandingStats";
 import { Reveal, GlowCard } from "@/components/landing/MotionWrappers";
 import { getLandingStats } from "@/app/actions/stats";
@@ -17,6 +19,7 @@ export default async function LandingPage() {
       <main className="flex-1 pt-16">
         {/* Hero Section */}
         <section className="w-full py-20 md:py-32 lg:py-48 bg-gradient-to-b from-slate-50 to-white relative overflow-hidden">
+          <EKGLine />
           <FloatingIcons />
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
 
@@ -118,11 +121,12 @@ export default async function LandingPage() {
         </section>
 
         {/* Contact Section */}
-        <section id="contact" className="w-full py-32 bg-white">
+        <section id="contact" className="w-full py-20 bg-white">
           <div className="container px-4 md:px-6 mx-auto">
             <Reveal>
-              <div className="max-w-5xl mx-auto rounded-[3rem] bg-slate-900 border border-slate-800 shadow-2xl overflow-hidden flex flex-col md:flex-row group transition-all duration-500">
-                <div className="p-16 md:w-1/2 bg-blue-600 text-white space-y-8 relative overflow-hidden">
+              <div className="max-w-5xl mx-auto rounded-[2.5rem] bg-slate-900 shadow-2xl overflow-hidden flex flex-col md:flex-row min-h-[500px]">
+                {/* Left Side: Support Info */}
+                <div className="p-8 md:p-16 md:w-1/2 bg-blue-600 text-white space-y-8 relative overflow-hidden flex flex-col justify-center">
                   <div className="absolute top-0 right-0 p-4 opacity-10">
                     <Activity size={200} />
                   </div>
@@ -132,23 +136,27 @@ export default async function LandingPage() {
                   </p>
                   <div className="space-y-6 pt-6">
                     <div className="flex items-center gap-4 group/item cursor-default">
-                      <div className="p-3 rounded-xl bg-white/10 group-hover/item:bg-white/20 transition-colors"><Activity className="h-6 w-6" /></div>
+                      <div className="p-3 rounded-xl bg-white/10 group-hover/item:bg-white/20 transition-colors">
+                        <Activity className="h-6 w-6" />
+                      </div>
                       <span className="font-bold text-blue-50">support@careflow.dev</span>
                     </div>
                     <div className="flex items-center gap-4 group/item cursor-default">
-                      <div className="p-3 rounded-xl bg-white/10 group-hover/item:bg-white/20 transition-colors"><Shield className="h-6 w-6" /></div>
+                      <div className="p-3 rounded-xl bg-white/10 group-hover/item:bg-white/20 transition-colors">
+                        <Shield className="h-6 w-6" />
+                      </div>
                       <span className="font-bold text-blue-50">24/7 Priority Support</span>
                     </div>
                   </div>
                 </div>
-                <div className="p-16 md:w-1/2 flex flex-col justify-center space-y-8 bg-slate-900 relative">
+
+                {/* Right Side: Demo Form */}
+                <div className="p-8 md:p-16 md:w-1/2 flex flex-col justify-center space-y-8 bg-slate-900 relative">
                   <div className="space-y-4">
                     <h3 className="text-2xl font-bold text-white tracking-tight">Request a Demo</h3>
                     <p className="text-slate-400 text-base font-medium">Ready to see how CareFlow can transform your medical facility's workflow?</p>
                   </div>
-                  <Button size="lg" className="w-full rounded-2xl h-16 text-lg font-bold shadow-xl shadow-blue-900/40 bg-white text-slate-950 hover:bg-slate-100 transition-all border-none">
-                    Send Inquiry Now
-                  </Button>
+                  <ContactForm />
                 </div>
               </div>
             </Reveal>
