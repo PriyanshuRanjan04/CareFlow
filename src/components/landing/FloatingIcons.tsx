@@ -58,7 +58,7 @@ export function FloatingIcons() {
                 return (
                     <motion.div
                         key={index}
-                        className={`absolute ${item.color} opacity-40 dark:opacity-20`}
+                        className={`absolute ${item.color} opacity-60 dark:opacity-40`}
                         style={{
                             top: item.top,
                             left: item.left,
@@ -67,7 +67,7 @@ export function FloatingIcons() {
                         }}
                         initial={{ opacity: 0, scale: 0 }}
                         animate={{
-                            opacity: [0.2, 0.4, 0.2],
+                            opacity: [0.4, 0.6, 0.4],
                             scale: 1,
                             rotate: [0, 5, -5, 0]
                         }}
@@ -77,7 +77,7 @@ export function FloatingIcons() {
                             ease: "easeInOut"
                         }}
                     >
-                        <item.icon size={item.size} />
+                        <item.icon size={item.size + 4} />
                     </motion.div>
                 );
             })}
