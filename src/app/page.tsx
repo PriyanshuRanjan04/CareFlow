@@ -13,12 +13,12 @@ export default async function LandingPage() {
   const { stats } = await getLandingStats();
 
   return (
-    <div className="flex min-h-screen flex-col bg-white dark:bg-slate-950 overflow-x-hidden">
+    <div className="flex min-h-screen flex-col overflow-x-hidden relative">
       <LandingHeader />
 
       <main className="flex-1 pt-16">
         {/* Hero Section */}
-        <section className="w-full py-20 md:py-32 lg:py-48 bg-gradient-to-b from-slate-50 to-white dark:from-slate-900/50 dark:to-slate-950 relative overflow-hidden">
+        <section className="w-full py-20 md:py-32 lg:py-48 bg-transparent relative overflow-hidden">
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
 
           <div className="container px-4 md:px-6 mx-auto relative z-10">
@@ -49,7 +49,7 @@ export default async function LandingPage() {
         </section>
 
         {/* Real-Time Stats Section */}
-        <section className="w-full py-20 bg-white dark:bg-slate-950">
+        <section className="w-full py-20 bg-transparent">
           <div className="container px-4 md:px-6 mx-auto">
             <Reveal>
               <div className="text-center mb-16 space-y-4">
@@ -62,8 +62,8 @@ export default async function LandingPage() {
         </section>
 
         {/* Features Section */}
-        <section id="features" className="w-full py-32 bg-slate-50 dark:bg-slate-900/50 relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-white dark:from-slate-950 to-transparent"></div>
+        <section id="features" className="w-full py-32 bg-transparent relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-transparent to-transparent"></div>
           <div className="container px-4 md:px-6 mx-auto relative z-10">
             <Reveal>
               <div className="text-center mb-20 space-y-4">
@@ -119,7 +119,7 @@ export default async function LandingPage() {
         </section>
 
         {/* Contact Section */}
-        <section id="contact" className="w-full py-20 bg-white dark:bg-slate-950">
+        <section id="contact" className="w-full py-20 bg-transparent">
           <div className="container px-4 md:px-6 mx-auto">
             <Reveal>
               <div className="max-w-5xl mx-auto rounded-[2.5rem] bg-slate-900 shadow-2xl overflow-hidden flex flex-col md:flex-row min-h-[500px]">
@@ -162,7 +162,7 @@ export default async function LandingPage() {
         </section>
       </main>
 
-      <footer className="w-full py-12 bg-white dark:bg-slate-950 border-t border-slate-100 dark:border-slate-900">
+      <footer className="w-full py-12 bg-transparent border-t border-slate-100 dark:border-slate-900">
         <div className="container px-4 md:px-6 mx-auto flex flex-col sm:flex-row justify-between items-center gap-8 text-center sm:text-left">
           <div className="space-y-2">
             <p className="text-base font-bold text-slate-900 dark:text-white">

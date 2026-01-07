@@ -26,7 +26,7 @@ export function DashboardSidebar() {
     const pathname = usePathname();
 
     return (
-        <aside className="hidden md:flex w-64 flex-col bg-white dark:bg-slate-950 border-r border-slate-200 dark:border-slate-800 transition-colors duration-300">
+        <aside className="hidden md:flex w-64 flex-col bg-white/70 dark:bg-slate-950/70 backdrop-blur-md border-r border-slate-200 dark:border-slate-800 transition-colors duration-300">
             <div className="h-16 flex items-center px-6 border-b border-slate-100 dark:border-slate-900">
                 <Link href="/dashboard" className="flex items-center gap-2">
                     <div className="p-1.5 rounded-lg bg-primary/10">

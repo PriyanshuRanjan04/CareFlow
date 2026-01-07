@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
-        <body className={`${inter.className} antialiased`}>
+        <body className={`${inter.className} antialiased bg-transparent`}>
           <ThemeProvider
             attribute="class"
             defaultTheme="light"
@@ -28,7 +28,9 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <GlobalAtmosphere />
-            {children}
+            <div className="relative z-10 min-h-screen">
+              {children}
+            </div>
           </ThemeProvider>
         </body>
       </html>

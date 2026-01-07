@@ -29,7 +29,7 @@ function Counter({ value, label, icon: Icon, color, suffix = "+" }: CounterProps
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="flex flex-col items-center p-8 bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-xl transition-all duration-500 group"
+            className="flex flex-col items-center p-8 bg-white/60 dark:bg-slate-900/60 backdrop-blur-sm rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-xl transition-all duration-500 group"
         >
             <div className={`p-4 rounded-2xl ${color} bg-opacity-10 mb-6 group-hover:scale-110 transition-transform`}>
                 <Icon size={32} className={color.replace("bg-", "text-")} />

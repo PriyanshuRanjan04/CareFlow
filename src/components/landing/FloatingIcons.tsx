@@ -26,7 +26,17 @@ const icons = [
     { icon: Pill, color: "text-amber-400", size: 28, top: "85%", left: "20%", depth: 0.45 },
     { icon: Thermometer, color: "text-orange-400", size: 32, top: "70%", left: "60%", depth: 0.3 },
     { icon: Syringe, color: "text-blue-400", size: 40, top: "35%", left: "45%", depth: 0.12 },
+    // New icons for more density
+    { icon: Activity, color: "text-indigo-400", size: 30, top: "5%", left: "40%", depth: 0.22 },
+    { icon: HeartPulse, color: "text-rose-400", size: 28, top: "45%", left: "15%", depth: 0.18 },
+    { icon: Shield, color: "text-blue-300", size: 35, top: "90%", left: "50%", depth: 0.28 },
+    { icon: Stethoscope, color: "text-emerald-500", size: 38, top: "75%", left: "5%", depth: 0.15 },
+    { icon: Microscope, color: "text-blue-600", size: 42, top: "20%", left: "60%", depth: 0.32 },
+    { icon: Pill, color: "text-violet-400", size: 22, top: "60%", left: "85%", depth: 0.4 },
+    { icon: Plus, color: "text-red-600", size: 20, top: "2%", left: "20%", depth: 0.1 },
+    { icon: Heart, color: "text-pink-400", size: 34, top: "82%", left: "35%", depth: 0.25 },
 ];
+
 
 
 export function FloatingIcons() {

@@ -9,7 +9,7 @@ import { NotificationPopover } from "./NotificationPopover";
 
 export function DashboardHeader() {
     return (
-        <header className="h-16 bg-white dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-8 shrink-0 transition-colors duration-300">
+        <header className="h-16 bg-white/70 dark:bg-slate-950/70 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-8 shrink-0 transition-colors duration-300">
             <div className="flex items-center flex-1">
                 <GlobalSearch />
             </div>
