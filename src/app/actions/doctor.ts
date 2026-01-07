@@ -10,7 +10,7 @@ const doctorSchema = z.object({
     email: z.string().email("Invalid email address"),
     specialization: z.string().min(2, "Specialization is required"),
     licenseNumber: z.string().min(5, "License number is required"),
-    bio: z.string().optional(),
+    department: z.string().optional(),
 });
 
 export type DoctorFormData = z.infer<typeof doctorSchema>;
@@ -57,7 +57,7 @@ export async function createDoctor(data: DoctorFormData) {
                 userId: doctorUser.id,
                 specialization: data.specialization,
                 licenseNumber: data.licenseNumber,
-                bio: data.bio || "",
+                bio: data.department || "",
             }
         });
 

@@ -31,7 +31,7 @@ const formSchema = z.object({
     email: z.string().email("Invalid email address"),
     specialization: z.string().min(2, "Specialization is required"),
     licenseNumber: z.string().min(5, "License number is required"),
-    bio: z.string().optional(),
+    department: z.string().optional(),
 });
 
 export function AddDoctorModal() {
@@ -45,7 +45,7 @@ export function AddDoctorModal() {
             email: "",
             specialization: "",
             licenseNumber: "",
-            bio: "",
+            department: "",
         },
     });
 
@@ -140,12 +140,12 @@ export function AddDoctorModal() {
                         </div>
                         <FormField
                             control={form.control}
-                            name="bio"
+                            name="department"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Bio (Optional)</FormLabel>
+                                    <FormLabel>Department (Optional)</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="Brief experience summary" {...field} />
+                                        <Input placeholder="e.g. Heart & Vascular" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
