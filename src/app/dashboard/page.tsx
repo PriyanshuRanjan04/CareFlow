@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { currentUser } from "@clerk/nextjs/server";
 import prisma from "@/lib/prisma";
 import { format } from "date-fns";
+import Link from "next/link";
 import { AddPatientModal } from "@/components/dashboard/AddPatientModal";
 
 import { QuickAppointmentModal } from "@/components/dashboard/QuickAppointmentModal";
@@ -91,7 +92,7 @@ export default async function DashboardPage() {
                 ))}
             </div>
 
-            {/* Activity Section */}
+// Activity Section
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div className="lg:col-span-2 p-6 rounded-xl bg-white border border-slate-200 shadow-sm">
                     <div className="flex items-center justify-between mb-6">
@@ -99,28 +100,41 @@ export default async function DashboardPage() {
                             <Activity className="h-5 w-5 text-primary" />
                             Recent Appointments
                         </h3>
-                        <Button variant="ghost" size="sm" className="text-primary hover:text-primary hover:bg-blue-50">View all</Button>
+                        <Button variant="ghost" size="sm" className="text-primary hover:text-primary hover:bg-blue-50" asChild>
+                            <Link href="/dashboard/appointments">View all</Link>
+                        </Button>
                     </div>
                     <div className="space-y-4">
                         {recentAppointments.length === 0 ? (
-                            <p className="text-slate-500 text-center py-4">No recent appointments found.</p>
+                            <div className="flex flex-col items-center justify-center py-12 border-2 border-dashed border-slate-100 rounded-xl">
+                                <Calendar className="h-8 w-8 text-slate-200 mb-2" />
+                                <p className="text-slate-400 text-sm italic">No clinical sessions scheduled yet.</p>
+                            </div>
                         ) : (
                             recentAppointments.map((appointment) => (
-                                <div key={appointment.id} className="flex items-center justify-between p-4 rounded-lg border border-slate-50 bg-slate-50/30">
+                                <div key={appointment.id} className="flex items-center justify-between p-4 rounded-xl border border-slate-100 bg-white hover:bg-slate-50/50 hover:shadow-md hover:shadow-slate-100 transition-all group">
                                     <div className="flex items-center gap-4">
-                                        <div className="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center font-bold text-slate-600">
+                                        <div className="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center font-bold text-slate-600 transition-colors group-hover:bg-blue-100 group-hover:text-blue-600">
                                             {appointment.patient.user.name?.substring(0, 2).toUpperCase() || "PT"}
                                         </div>
                                         <div>
-                                            <p className="text-sm font-bold text-slate-900">
-                                                {appointment.patient.user.name || "Unknown Patient"}
-                                            </p>
-                                            <p className="text-xs text-slate-500">
-                                                {format(new Date(appointment.dateTime), "MMM d, h:mm a")}
+                                            <div className="flex items-center gap-2">
+                                                <p className="text-sm font-bold text-slate-900">
+                                                    {appointment.patient.user.name || "Unknown Patient"}
+                                                </p>
+                                                <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider ${appointment.status === 'COMPLETED' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'
+                                                    }`}>
+                                                    {appointment.status}
+                                                </span>
+                                            </div>
+                                            <p className="text-xs text-slate-500 font-medium">
+                                                {format(new Date(appointment.dateTime), "MMM d, h:mm a")} • <span className="italic text-slate-400">"{appointment.reason || "General Checkup"}"</span>
                                             </p>
                                         </div>
                                     </div>
-                                    <Button variant="ghost" size="sm">Details</Button>
+                                    <Button variant="ghost" size="sm" className="text-slate-400 hover:text-primary" asChild>
+                                        <Link href="/dashboard/appointments">Details</Link>
+                                    </Button>
                                 </div>
                             ))
                         )}

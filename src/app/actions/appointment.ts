@@ -67,3 +67,51 @@ export async function createAppointment(data: AppointmentFormData) {
         return { success: false, error: "Failed to create appointment" };
     }
 }
+
+const diagnosisSchema = z.object({
+    appointmentId: z.string().min(1),
+    patientId: z.string().min(1),
+    diagnosis: z.string().min(2, "Diagnosis is required"),
+    treatment: z.string().optional(),
+    prescription: z.string().optional(),
+});
+
+export async function completeAppointment(data: z.infer<typeof diagnosisSchema>) {
+    const user = await currentUser();
+    if (!user) {
+        return { success: false, error: "Unauthorized" };
+    }
+
+    const result = diagnosisSchema.safeParse(data);
+    if (!result.success) {
+        return { success: false, error: result.error.flatten().fieldErrors };
+    }
+
+    try {
+        await prisma.$transaction([
+            // 1. Update Appointment Status
+            prisma.appointment.update({
+                where: { id: data.appointmentId },
+                data: { status: "COMPLETED" },
+            }),
+            // 2. Create Medical Record
+            prisma.medicalRecord.create({
+                data: {
+                    patientId: data.patientId,
+                    diagnosis: data.diagnosis,
+                    treatment: data.treatment,
+                    prescription: data.prescription,
+                },
+            }),
+        ]);
+
+        revalidatePath("/dashboard");
+        revalidatePath("/dashboard/appointments");
+        revalidatePath("/dashboard/records");
+
+        return { success: true };
+    } catch (error) {
+        console.error("Failed to complete appointment:", error);
+        return { success: false, error: "Failed to save diagnosis" };
+    }
+}
