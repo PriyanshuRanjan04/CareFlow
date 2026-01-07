@@ -114,7 +114,7 @@ export function QuickAppointmentModal({ patients, doctors }: QuickAppointmentMod
                             <SelectTrigger>
                                 <SelectValue placeholder="Select Patient" />
                             </SelectTrigger>
-                            <SelectContent>
+                            <SelectContent className="max-h-60 overflow-y-auto">
                                 {patients.length === 0 ? (
                                     <SelectItem value="none" disabled>No patients found</SelectItem>
                                 ) : (
@@ -132,7 +132,7 @@ export function QuickAppointmentModal({ patients, doctors }: QuickAppointmentMod
                             <SelectTrigger>
                                 <SelectValue placeholder="Select Doctor" />
                             </SelectTrigger>
-                            <SelectContent>
+                            <SelectContent className="max-h-60 overflow-y-auto">
                                 {doctors.length === 0 ? (
                                     <SelectItem value="none" disabled>No doctors found</SelectItem>
                                 ) : (
