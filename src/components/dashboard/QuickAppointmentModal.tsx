@@ -27,7 +27,7 @@ import { Loader2, Zap } from "lucide-react";
 
 interface QuickAppointmentModalProps {
     patients: { id: string; name: string }[];
-    doctors: { id: string; name: string }[];
+    doctors: { id: string; name: string; department: string }[];
 }
 
 export function QuickAppointmentModal({ patients, doctors }: QuickAppointmentModalProps) {
@@ -98,7 +98,18 @@ export function QuickAppointmentModal({ patients, doctors }: QuickAppointmentMod
                 </DialogHeader>
                 <form onSubmit={handleSubmit} className="space-y-4 mt-4">
                     <div className="space-y-2">
-                        <Label htmlFor="patient">Patient</Label>
+                        <div className="flex items-center justify-between">
+                            <Label htmlFor="patient">Patient</Label>
+                            {patientId && (
+                                <button
+                                    type="button"
+                                    onClick={() => setPatientId("")}
+                                    className="text-[10px] text-slate-400 hover:text-red-500 transition-colors underline"
+                                >
+                                    Remove selection
+                                </button>
+                            )}
+                        </div>
                         <Select onValueChange={setPatientId} value={patientId}>
                             <SelectTrigger>
                                 <SelectValue placeholder="Select Patient" />
@@ -126,7 +137,12 @@ export function QuickAppointmentModal({ patients, doctors }: QuickAppointmentMod
                                     <SelectItem value="none" disabled>No doctors found</SelectItem>
                                 ) : (
                                     doctors.map((d) => (
-                                        <SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>
+                                        <SelectItem key={d.id} value={d.id}>
+                                            <div className="flex flex-col">
+                                                <span>{d.name}</span>
+                                                <span className="text-[10px] text-slate-400 font-normal leading-tight">{d.department}</span>
+                                            </div>
+                                        </SelectItem>
                                     ))
                                 )}
                             </SelectContent>

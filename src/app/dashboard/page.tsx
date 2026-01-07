@@ -52,7 +52,11 @@ export default async function DashboardPage() {
 
     // Format data for modal
     const patientsList = patients.map(p => ({ id: p.id, name: p.user.name || "Unknown Patient" }));
-    const doctorsList = doctors.map(d => ({ id: d.id, name: d.user.name || "Dr. Unknown" }));
+    const doctorsList = doctors.map(d => ({
+        id: d.id,
+        name: d.user.name || "Dr. Unknown",
+        department: d.bio || "General"
+    }));
 
     return (
         <div className="space-y-8">
